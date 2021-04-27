@@ -3,8 +3,10 @@ from urllib import request
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from werkzeug.utils import secure_filename, redirect
 from predictDisease import prepare, predict
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
@@ -15,7 +17,7 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET'])
 def index():
-    return jsonify({'chat': 'Hello Chatbot'})
+    return jsonify({'disease': predict()})
 
 
 @app.route('/upload', methods=['POST'])
@@ -43,4 +45,4 @@ def upload_image():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host='127.0.0.1', port=45998)
+    app.run(debug=False, host='127.0.0.1', port=5003)
